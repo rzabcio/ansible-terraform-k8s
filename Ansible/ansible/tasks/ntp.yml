@@ -1,0 +1,34 @@
+---
+    - name: Ensure NTP package is installed.
+      package:
+        name: ntp 
+        state: present
+    - name: Ensure tzdata package is installed 
+      package: 
+        name: "{{ ntp_tzdata_package }}"
+        state: present 
+    - name: Set timezone 
+      timezone: 
+        name: "{{ ntp_timezone }}"
+      notify: restart cron 
+    - name: Disable systemd-timesyncd 
+      service:
+        name: systemd-timesyncd.service
+        enabled: false
+        state: stopped
+    - name: Remove chrony client package from the systemd
+      apt: 
+        name: chrony 
+        state: absent
+    - name: Ensure NTP is running and enabled 
+      service: 
+        name: ntp 
+        state: started 
+        enabled: true 
+    - name: Generate ntp configuration file.
+      template:
+        src: "../templates/ntp.conf.j2"
+        dest: "/etc/ntp.conf"
+        mode: 0644
+      notify: 
+        - restart ntp

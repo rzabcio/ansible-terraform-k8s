@@ -1,0 +1,18 @@
+---
+- name: Configure Debian
+  hosts: all 
+  become: true  
+  vars_files: 
+    - ../vars/main.yml 
+  handlers: 
+    - import_tasks: ../handlers/main.yml 
+  tasks: 
+    - name: Create login user 
+      import_tasks: user.yml
+    - name: Configure NTP 
+      import_tasks: ntp.yml 
+    - name: Configure lxc
+      import_tasks: lxc.yml 
+
+
+      

@@ -1,0 +1,41 @@
+---
+- name: Install lxc packages 
+  apt: 
+    name: "{{ item }}"
+    state: present 
+  loop: 
+    - lxc
+    - lxc-dev
+- name: Configuration lxc-bridge
+  copy: 
+    src: ../files/lxc-net.conf 
+    dest: /etc/default/lxc-net 
+- name: Lxc network configuration 
+  copy: 
+    src: ../files/lxc.conf 
+    dest: /etc/lxc/default.conf
+    mode: '0644'
+- name: start lxc 
+  service: 
+    name: "{{ item }}" 
+    state: started 
+  loop: 
+    - lxc-net 
+    - lxc 
+- name: pip lxc packages are installed on host
+  apt:
+    name: python3-lxc
+    state: present 
+- name: Deploy lxc containers 
+  lxc_container: 
+    name: "{{ item }}"
+    container_log: true 
+    template: debian 
+    state: started 
+    template_options: --release stretch
+    container_config: 
+      - "lxc.cgroup.memory.max_usage_in_bytes = 1G" 
+  loop: 
+    - debcontainer1
+    - debcontainer2 
+    

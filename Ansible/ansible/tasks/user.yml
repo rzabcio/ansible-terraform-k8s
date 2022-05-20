@@ -1,0 +1,5 @@
+- name: Create login user 
+  user: 
+    name: '{{ user }}'
+    password: '{{ password }}'
+    state: present

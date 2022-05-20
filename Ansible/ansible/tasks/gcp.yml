@@ -1,0 +1,6 @@
+---
+plugin: gcp_compute
+projects: 
+  - playground-s-11-582688ea 
+auth_kind: serviceaccount
+service_account_file: ansible-gcp-key.json 

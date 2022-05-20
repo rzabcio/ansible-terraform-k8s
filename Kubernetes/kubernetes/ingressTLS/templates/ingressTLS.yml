@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress 
+metadata: 
+  name: nginx-ingress
+  annotations: 
+    kubernetes.io/ingress.global-static-ip-name: static-ingress
+    cert-manager.io/cluster-issuer: letsencrypt-staging
+    acme.cert-manager.io/http01-edit-in-place: "true"
+spec:
+  tls: 
+  - hosts: 
+    - app."{{ .Values.ip }}".nip.io #in order to use Let's Encrypt that works only with domain names I use nip.io to resolve a simple domain to an IP address. I use static IP from terraform output file.   
+    secretName: ingress-cert-secret
+  rules: 
+  - host: app."{{ .Values.ip }}".nip.io
+    http: 
+      paths: 
+      - path: "/" 
+        pathType: ImplementationSpecific
+        backend: 
+          service: 
+            name: nginx-service 
+            port: 
+              number: 80 

@@ -1,0 +1,4 @@
+NAME                               STATUS   ROLES    AGE     VERSION            INTERNAL-IP   EXTERNAL-IP   OS-IMAGE                             KERNEL-VERSION   CONTAINER-RUNTIME
+gke-asseco-general-46baa838-rgv3   Ready    <none>   4m10s   v1.21.11-gke.900   10.0.0.3      <none>        Container-Optimized OS from Google   5.4.170+         containerd://1.4.8
+gke-asseco-general-46baa838-s2rg   Ready    <none>   4m12s   v1.21.11-gke.900   10.0.0.4      <none>        Container-Optimized OS from Google   5.4.170+         containerd://1.4.8
+
